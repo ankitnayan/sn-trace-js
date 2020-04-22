@@ -19,6 +19,33 @@ const log = require('../log')
 const constants = require('../constants')
 const platform = require('../platform')
 
+const jaegerClient = require('jaeger-client')
+const initTracer = jaegerClient.initTracer
+
+function initJaegerTracer(serviceName) {
+  var config = {
+    serviceName: serviceName,
+    sampler: {
+      type: "const",
+      param: 1,
+    },
+    // reporter: {
+    //   logSpans: true,
+    // },
+  };
+  var options = {
+    logger: {
+      info: function logInfo(msg) {
+        console.log("INFO ", msg);
+      },
+      error: function logError(msg) {
+        console.log("ERROR", msg);
+      },
+    },
+  };
+  return initTracer(config, options);
+}
+
 const REFERENCE_NOOP = constants.REFERENCE_NOOP
 const REFERENCE_CHILD_OF = opentracing.REFERENCE_CHILD_OF
 const REFERENCE_FOLLOWS_FROM = opentracing.REFERENCE_FOLLOWS_FROM
@@ -31,7 +58,7 @@ class DatadogTracer extends Tracer {
     log.toggle(config.debug, config.logLevel)
 
     const Exporter = platform.exporter(config.experimental.exporter)
-
+    this._jaegerTracer = initJaegerTracer(config.service)
     this._service = config.service
     this._version = config.version
     this._env = config.env

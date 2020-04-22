@@ -12,34 +12,6 @@ const tagger = require('../tagger')
 const SAMPLE_RATE_METRIC_KEY = constants.SAMPLE_RATE_METRIC_KEY
 
 const jaegerClient = require('jaeger-client')
-const initTracer = jaegerClient.initTracer
-
-function initJaegerTracer(serviceName) {
-  var config = {
-    serviceName: serviceName,
-    sampler: {
-      type: "const",
-      param: 1,
-    },
-    // reporter: {
-    //   logSpans: true,
-    // },
-  };
-  var options = {
-    logger: {
-      info: function logInfo(msg) {
-        console.log("INFO ", msg);
-      },
-      error: function logError(msg) {
-        console.log("ERROR", msg);
-      },
-    },
-  };
-  return initTracer(config, options);
-}
-
-const jaegerTracer = initJaegerTracer("nodejs-sensor-test")
-
 const JaegerSpan = jaegerClient.Span
 const JaegerSpanContext = jaegerClient.SpanContext
 
@@ -166,7 +138,8 @@ class DatadogSpan extends Span {
       this._spanContext._spanId, this._spanContext._parentId)
     spanContext.finalizeSampling()
     spanContext._samplingState._flags = 1
-    const jaegerSpan = new JaegerSpan(jaegerTracer, operationName, spanContext, this._startTime)
+
+    const jaegerSpan = new JaegerSpan(this._parentTracer._jaegerTracer, operationName, spanContext, this._startTime)
 
     jaegerSpan.addTags(this._spanContext._tags)
     jaegerSpan.finish(finishTime)
