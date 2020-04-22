@@ -14,9 +14,6 @@ const SAMPLE_RATE_METRIC_KEY = constants.SAMPLE_RATE_METRIC_KEY
 const jaegerClient = require('jaeger-client')
 const initTracer = jaegerClient.initTracer
 
-let dd_trace_count = 0
-let jaeger_trace_count = 0
-
 function initJaegerTracer(serviceName) {
   var config = {
     serviceName: serviceName,
@@ -24,9 +21,9 @@ function initJaegerTracer(serviceName) {
       type: "const",
       param: 1,
     },
-    reporter: {
-      logSpans: true,
-    },
+    // reporter: {
+    //   logSpans: true,
+    // },
   };
   var options = {
     logger: {
