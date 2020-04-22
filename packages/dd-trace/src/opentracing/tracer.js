@@ -20,7 +20,7 @@ const constants = require('../constants')
 const platform = require('../platform')
 
 const jaegerClient = require('jaeger-client')
-const initTracer = jaegerClient.initTracer
+const initTracer = jaegerClient.initTracerFromEnv
 
 function initJaegerTracer(serviceName) {
   var config = {
