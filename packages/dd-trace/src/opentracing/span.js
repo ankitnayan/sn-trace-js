@@ -124,8 +124,8 @@ class DatadogSpan extends Span {
         trace: parent._trace
       })
     } else {
-      const spanId = id()
-      // const spanId = this._createId()
+      // const spanId = id()
+      const spanId = this._createId()
       spanContext = new SpanContext({
         traceId: spanId,
         spanId
