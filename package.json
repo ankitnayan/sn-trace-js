@@ -54,6 +54,7 @@
     "core-js": "^3.6.0",
     "hdr-histogram-js": "^1.1.4",
     "int64-buffer": "^0.1.9",
+    "jaeger-client": "^3.17.2",
     "koalas": "^1.0.2",
     "limiter": "^1.1.4",
     "lodash.kebabcase": "^4.1.1",
@@ -74,7 +75,8 @@
     "semver": "^5.5.0",
     "shimmer": "^1.2.0",
     "url-parse": "^1.4.3",
-    "whatwg-fetch": "^3.0.0"
+    "whatwg-fetch": "^3.0.0",
+    "xorshift": "^1.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
